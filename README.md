@@ -1,4 +1,4 @@
-fetch all users from the same piscine (42 school)
+fetch all users from the same piscine as an user (42 school)
 
 ### Setup
 
