@@ -58,6 +58,7 @@ piscine = [elem for elem in user_data.get("cursus_users") if elem.get("grade") =
 piscine_begin_at = piscine.get("begin_at")
 
 # Fetch piscine cursus begin_at attr
+print("Starting to fetch users ...")
 users = []
 page = 1
 while (True):
@@ -86,5 +87,9 @@ for user in users:
 		csv_content += f"https://profile.intra.42.fr/users/{user_obj.get("login")};"
 		csv_content += f"{user_obj.get("image").get("link")}"
 	csv_content += "\n"
+
+with open(f"{username}_piscine_users_raw.json", "w") as file:
+	json.dump(users, file, indent=4)
+
 with open(f"{username}_piscine_users.csv", "w") as file:
 	file.write(csv_content)
