@@ -21,7 +21,7 @@ def get_access_token():
 
 def GET(url):
 	headers = {
-		"Authorization": f"Bearer {creds.get("access_token")}"
+		"Authorization": f"Bearer {creds.get('access_token')}"
 	}
 	req = requests.get(url, headers=headers)
 	data = req.json()
@@ -70,22 +70,29 @@ while (True):
 	page += 1
 	sleep(1)
 
+def sort_fn(n):
+	return n.get("user", {}).get("level", -1)
+
+# Sort the users by the attribute level
+users = sorted(users, key=sort_fn)
+
 print(f"Sucessfully fetched {len(users)} users")
 # with open("piscine.json", "w") as file:
 	# json.dump(users, file, indent=4)
 
 # creating csv file
-csv_content = "id;first_name;last_name;login;level;profile_url;profile_picture_url\n"
+csv_content = "id;active;first_name;last_name;login;level;profile_url;profile_picture_url\n"
 for user in users:
-	csv_content += f"{user.get("id")};"
+	csv_content += f"{user.get('id')};"
 	user_obj = user.get("user")
 	if user_obj:
-		csv_content += f"{user_obj.get("first_name")};"
-		csv_content += f"{user_obj.get("last_name")};"
-		csv_content += f"{user_obj.get("login")};"
-		csv_content += f"{user.get("level")};"
-		csv_content += f"https://profile.intra.42.fr/users/{user_obj.get("login")};"
-		csv_content += f"{user_obj.get("image").get("link")}"
+		csv_content += f"{user_obj.get('active?')};"
+		csv_content += f"{user_obj.get('first_name')};"
+		csv_content += f"{user_obj.get('last_name')};"
+		csv_content += f"{user_obj.get('login')};"
+		csv_content += f"{user.get('level')};"
+		csv_content += f"https://profile.intra.42.fr/users/{user_obj.get('login')};"
+		csv_content += f"{user_obj.get('image').get('link')}"
 	csv_content += "\n"
 
 with open(f"{username}_piscine_users_raw.json", "w") as file:
